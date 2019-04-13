@@ -1,0 +1,4 @@
+{
+  "extends": "./node_modules/lab/lib/linter/.eslintrc.js"
+}
+
