@@ -1021,6 +1021,7 @@
   "devDependencies": {
     "git-url-parse": "11.x.x",
     "lab": "18.x.x",
-    "pacote": "9.x.x"
+    "pacote": "9.x.x",
+    "stats-lite": "2.x.x"
   }
 }
