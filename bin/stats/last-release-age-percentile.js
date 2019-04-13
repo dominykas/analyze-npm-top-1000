@@ -7,7 +7,7 @@ const _ = require('lodash');
 const Stats = require('stats-lite');
 
 
-const Packuments = require('../lib/packuments');
+const Packuments = require('../../lib/packuments');
 
 
 const internals = {
@@ -19,7 +19,7 @@ const internals = {
 
 internals.main = async () => {
 
-    const deps = require('../package.json').dependencies;
+    const deps = require('../../package.json').dependencies;
 
     const all = await Packuments.loadAll(deps);
 
@@ -36,7 +36,7 @@ internals.main = async () => {
     for (let i = 1; i <= 100 / p; ++i) {
         const percentile = i * p;
         const age = Stats.percentile(res, percentile / 100);
-        console.log(percentile, Math.round(age));
+        console.log(`${percentile}% - ${Math.round(age)} days old`);
     }
 };
 
