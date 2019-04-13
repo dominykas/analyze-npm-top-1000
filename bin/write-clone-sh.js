@@ -15,7 +15,7 @@ internals.main = () => {
 
     const repoInfo = GitInfo.get(require('../package.json').dependencies);
 
-    Fs.writeFileSync(Path.join(__dirname, '..', 'cache', 'clone.sh'), repoInfo.map(({ url, gitFullName }) => `git clone ${url} ${gitFullName}`).join('\n'));
+    Fs.writeFileSync(Path.join(__dirname, '..', 'cache', 'clone.sh'), repoInfo.map(({ url, gitFullName }) => `git clone ${url} git/${gitFullName}`).join('\n'));
 };
 
 internals.main();
