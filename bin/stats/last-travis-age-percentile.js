@@ -50,6 +50,7 @@ internals.main = async () => {
         const age = Stats.percentile(res, percentile / 100);
         console.log(`${percentile}%\t${Math.round(age)} days old`);
     }
+
     console.log('No travis: ', noTravis);
 };
 

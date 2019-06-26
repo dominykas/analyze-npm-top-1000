@@ -1,4 +1,6 @@
 {
-  "extends": "./node_modules/lab/lib/linter/.eslintrc.js"
+  "extends": "@hapi/hapi",
+  "parserOptions": {
+    "ecmaVersion": 2019
+  }
 }
-
