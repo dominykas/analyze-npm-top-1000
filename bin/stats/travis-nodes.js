@@ -37,11 +37,11 @@ internals.fixVersion = function (v) {
     }
 
     if (v === 'latest' || v === 'stable' || v === 'node') {
-        return '11';
+        return 'default';
     }
 
     if (v === 'lts/*') {
-        return '10';
+        return 'lts';
     }
 
     const [major, minor] = v.split('.');
@@ -60,13 +60,13 @@ internals.main = async () => {
     const all = GitInfo.get(deps);
 
     const travis = _(all)
-        .map(({ gitFullName }) => ({ name: gitFullName, repoPath: Path.join(GitInfo.cachePath, gitFullName) }))
+        .map(({ name, gitFullName }) => ({ pkg: name, name: gitFullName, repoPath: Path.join(GitInfo.cachePath, gitFullName) }))
         .filter(({ repoPath }) => Fs.existsSync(Path.join(repoPath, '.travis.yml')))
-        .map(({ name, repoPath }) => {
+        .map(({ pkg, name, repoPath }) => {
 
             const yaml = Fs.readFileSync(Path.join(repoPath, '.travis.yml'));
             try {
-                return { name, repoPath, yaml: Yaml.safeLoad(yaml) };
+                return { pkg, name, repoPath, yaml: Yaml.safeLoad(yaml) };
             }
             catch (err) {
                 // console.error(err);
@@ -91,7 +91,7 @@ internals.main = async () => {
         .value();
 
     const mapped = travis
-        .map(({ name, yaml }) => {
+        .map(({ pkg, name, yaml }) => {
 
             let versions = yaml['node_js'];
 
@@ -126,22 +126,23 @@ internals.main = async () => {
                 versions = ['?'];
             }
 
-            return { name, versions };
+            return { pkg, name, versions };
         })
-        .flatMap(({ name, versions }) => {
+        .flatMap(({ pkg, name, versions }) => {
 
             versions = _.flatMap(versions, (v) => internals.fixVersion(v));
 
-            return versions.map((version) => ({ name, version }));
+            return versions.map((version) => ({ pkg, name, version }));
         })
-        .uniqBy(({ name, version }) => `${name} - ${version}`);
+        .uniqBy(({ pkg, version }) => `${pkg} - ${version}`);
 
     let i = 0;
     const outdatedRepos = mapped
-        .groupBy('name')
-        .pickBy((g) => !_.map(g, 'version').includes('10'))
-        .map((g, name) => {
+        .groupBy('pkg')
+        .pickBy((g) => !_.map(g, 'version').includes('10') && !_.map(g, 'version').includes('lts'))
+        .map((g) => {
 
+            const name = g[0].name;
             const versions = _.map(g, 'version').join(', ');
             return `${++i}. [${name}](https://github.com/${name}): \`${versions}\` ([${Math.round(age[name].age)} days old](https://github.com/${name}/blob/master/.travis.yml))`;
         });
