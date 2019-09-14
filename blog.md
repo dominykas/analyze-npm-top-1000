@@ -85,3 +85,4 @@ lts | 45
 - Can greenkeeper upgrade node?
 - Can scan Circle CI?
 - Can scan GH actions?
+- Review guidelines we have in drafts
