@@ -79,10 +79,21 @@ lts | 45
 - Don't forget to bump major if you're dropping support
 - Introduce keywords?
 - Mention CITGM
+- https://nodejs.org/en/about/releases/
 
 ## Things to check
 
-- Can greenkeeper upgrade node?
+- Can greenkeeper upgrade node? Can dependabot upgrade node? #206
 - Can scan Circle CI?
 - Can scan GH actions?
-- Review guidelines we have in drafts
+- Existing WG content:
+    - https://github.com/nodejs/package-maintenance/issues/200
+    - https://github.com/nodejs/package-maintenance/issues/157
+    - https://github.com/nodejs/package-maintenance/issues/206
+    - https://github.com/nodejs/package-maintenance/blob/master/docs/drafts/testing-guidelines.md
+    - https://github.com/nodejs/package-maintenance/issues/114#issuecomment-449861955
+    
+## Followup
+
+- https://github.com/nodejs/package-maintenance/blob/master/docs/drafts/ci-cd-guidelines.md (npm ls)
+- GH actions in renovate
