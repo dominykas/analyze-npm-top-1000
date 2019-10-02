@@ -73,27 +73,15 @@ lts | 45
 
 ---
 
-## Ideas
-
-- Now is a good time, prep for v12, v8 deprecation
-- Don't forget to bump major if you're dropping support
-- Introduce keywords?
-- Mention CITGM
-- https://nodejs.org/en/about/releases/
-
 ## Things to check
 
-- Can greenkeeper upgrade node? Can dependabot upgrade node? #206
-- Can scan Circle CI?
-- Can scan GH actions?
 - Existing WG content:
-    - https://github.com/nodejs/package-maintenance/issues/200
-    - https://github.com/nodejs/package-maintenance/issues/157
-    - https://github.com/nodejs/package-maintenance/issues/206
     - https://github.com/nodejs/package-maintenance/blob/master/docs/drafts/testing-guidelines.md
-    - https://github.com/nodejs/package-maintenance/issues/114#issuecomment-449861955
-    
-## Followup
 
-- https://github.com/nodejs/package-maintenance/blob/master/docs/drafts/ci-cd-guidelines.md (npm ls)
-- GH actions in renovate
+## How: setting up other providers
+
+Some notes on other popular CI providers:
+
+- The default Github Actions template will, at the time of writing, include node versions 8, 10, 12, i.e. it follows the recommendation. Github Actions are still in beta and there are issues open regarding the support of aliases for versions (e.g. `lts`, `latest`) or even test matrices.<sup>5</sup> 
+5. https://github.com/actions/setup-node/issues/25, https://github.com/actions/setup-node/issues/26, https://github.com/actions/setup-node/pull/58
+
