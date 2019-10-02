@@ -79,7 +79,7 @@ internals.main = async () => {
     console.log(travis.size());
 
     const age = travis
-        .map(({ name, repoPath }) => {
+        .map(({ pkg, name, repoPath }) => {
 
             const resTravis = Cp.execSync('git log -n 1 .travis.yml | grep Date', { cwd: repoPath }).toString();
             const resCommit = Cp.execSync('git log -n 1 | grep Date', { cwd: repoPath }).toString();
@@ -87,9 +87,9 @@ internals.main = async () => {
             const ageTravis = internals.daysSince(new Date(resTravis.substring(5)));
             const ageCommit = internals.daysSince(new Date(resCommit.substring(5)));
 
-            return { name, ageTravis, ageCommit };
+            return { pkg, name, ageTravis, ageCommit };
         })
-        .keyBy('name')
+        .keyBy('pkg')
         .value();
 
     const mapped = travis
@@ -142,11 +142,11 @@ internals.main = async () => {
     const outdatedRepos = mapped
         .groupBy('pkg')
         .pickBy((g) => !_.map(g, 'version').includes('10') && !_.map(g, 'version').includes('lts'))
-        .map((g) => {
+        .map((g, pkg) => {
 
             const name = g[0].name;
             const versions = _.map(g, 'version').join(', ');
-            return `${++i}. [${name}](https://github.com/${name}): \`${versions}\` ([${Math.round(age[name].ageTravis)} days old](https://github.com/${name}/blob/master/.travis.yml))`;
+            return `${++i}. [${name}](https://github.com/${name}): \`${versions}\` ([${Math.round(age[pkg].ageTravis)} days old](https://github.com/${name}/blob/master/.travis.yml))`;
         });
 
     console.log(outdatedRepos.join('\n'));
@@ -159,15 +159,14 @@ internals.main = async () => {
 
     console.log(countByVersion);
 
-    const noSupport = mapped.groupBy('name').pickBy((g) => !_.map(g, 'version').includes('10') && !_.map(g, 'version').includes('lts')).value();
-    const agesCsv = _.map(age, ({ name, ageTravis, ageCommit }) => {
+    const noSupport = mapped.groupBy('pkg').pickBy((g) => !_.map(g, 'version').includes('10') && !_.map(g, 'version').includes('lts')).value();
+    const agesCsv = _.map(age, ({ pkg, name, ageTravis, ageCommit }) => {
 
-        const has10orLts = noSupport[name] ? 0 : 1;
-        return [name, ageTravis, ageCommit, has10orLts].join(';');
+        const has10orLts = noSupport[pkg] ? 0 : 1;
+        return [pkg, name, ageTravis, ageCommit, has10orLts].join(';');
     }).join('\n');
 
     Fs.writeFileSync(Path.join(__dirname, '..', '..', 'cache', 'age.csv'), agesCsv);
-    console.log(agesCsv);
 };
 
 internals.main().catch((err) => {
