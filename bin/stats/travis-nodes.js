@@ -66,7 +66,7 @@ internals.main = async () => {
 
             const yaml = Fs.readFileSync(Path.join(repoPath, '.travis.yml'));
             try {
-                return { pkg, name, repoPath, yaml: Yaml.safeLoad(yaml) };
+                return { pkg, name, repoPath, yaml: Yaml.safeLoad(yaml, { schema: Yaml.FAILSAFE_SCHEMA }) };
             }
             catch (err) {
                 // console.error(err);
