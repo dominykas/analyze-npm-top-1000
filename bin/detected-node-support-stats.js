@@ -33,6 +33,7 @@ const supportedOnTravis = _(travis)
         return _(info.travis.resolved)
             .map((resolvedVersion, key) => {
 
+                let matches;
                 if (key === 'lts/boron') {
                     resolvedVersion = '6.17.1';
                 }
@@ -44,6 +45,9 @@ const supportedOnTravis = _(travis)
                 }
                 else if (key === 'iojs') {
                     resolvedVersion = '3.3.1';
+                }
+                else if (matches = key.match(/^iojs-v(\d\.\d)$/)) {
+                    resolvedVersion = `${matches[1]}.0`;
                 }
                 else if (key === '1' || key.startsWith('1.')) {
                     resolvedVersion = '1.8.4';
