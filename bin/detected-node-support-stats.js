@@ -69,6 +69,7 @@ const supportedOnTravis = _(travis)
 
                 return resolvedVersion;
             })
+            .uniqBy((version) => getNodeRelease(version))
             .value();
     })
     .sort(Semver.compare)
