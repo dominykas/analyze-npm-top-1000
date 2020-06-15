@@ -8,6 +8,8 @@ const Path = require('path');
 const Semver = require('semver');
 
 const output = JSON.parse(Fs.readFileSync(process.argv[2]).toString());
+
+// https://nodejs.org/en/download/releases/
 const allNodes = Fs.readFileSync(Path.join(__dirname, 'all-nodes.txt')).toString().trim().split('\n');
 
 const travis = output.dependencies.support.filter((p) => p.travis);
