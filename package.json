@@ -1024,7 +1024,7 @@
     "detect-node-support": "1.x.x",
     "git-url-parse": "11.x.x",
     "pacote": "9.x.x",
-    "simple-git": "1.x.x",
+    "simple-git": "3.x.x",
     "stats-lite": "2.x.x"
   }
 }
